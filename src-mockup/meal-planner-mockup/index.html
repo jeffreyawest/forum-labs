@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner - Fluent 2.0 Mockup</title>
+    <style>
+        /* ==========================================
+           FLUENT 2.0 DESIGN TOKENS
+           ========================================== */
+        :root {
+            /* Brand Colors */
+            --colorBrandBackground: #0078D4;
+            --colorBrandBackgroundHover: #106EBE;
+            --colorBrandBackgroundPressed: #005A9E;
+            --colorBrandForeground: #0078D4;
+            
+            /* Neutral Colors */
+            --colorNeutralForeground1: #242424;
+            --colorNeutralForeground2: #616161;
+            --colorNeutralForeground3: #707070;
+            --colorNeutralForegroundDisabled: #BDBDBD;
+            --colorNeutralBackground1: #FFFFFF;
+            --colorNeutralBackground2: #FAFAFA;
+            --colorNeutralBackground3: #F5F5F5;
+            --colorNeutralBackground4: #F0F0F0;
+            --colorNeutralStroke1: #D1D1D1;
+            --colorNeutralStroke2: #E0E0E0;
+            
+            /* Status Colors */
+            --colorStatusSuccess: #107C10;
+            --colorStatusSuccessBackground: #DFF6DD;
+            --colorStatusWarning: #FFB900;
+            --colorStatusWarningBackground: #FFF4CE;
+            --colorStatusDanger: #D13438;
+            --colorStatusDangerBackground: #FDE7E9;
+            
+            /* Category Colors */
+            --colorSeafood: #0078D4;
+            --colorChicken: #FFB900;
+            --colorBeef: #D13438;
+            --colorVegetarian: #107C10;
+            --colorDessert: #881798;
+            --colorPasta: #FF8C00;
+            
+            /* Shadows */
+            --shadow2: 0 1px 2px rgba(0,0,0,0.14), 0 0 2px rgba(0,0,0,0.12);
+            --shadow4: 0 2px 4px rgba(0,0,0,0.14), 0 0 2px rgba(0,0,0,0.12);
+            --shadow8: 0 4px 8px rgba(0,0,0,0.14), 0 0 2px rgba(0,0,0,0.12);
+            --shadow16: 0 8px 16px rgba(0,0,0,0.14), 0 0 2px rgba(0,0,0,0.12);
+            
+            /* Border Radius */
+            --borderRadiusSmall: 4px;
+            --borderRadiusMedium: 8px;
+            --borderRadiusLarge: 12px;
+            --borderRadiusXLarge: 16px;
+            
+            /* Spacing */
+            --spacingXS: 4px;
+            --spacingS: 8px;
+            --spacingM: 12px;
+            --spacingL: 16px;
+            --spacingXL: 20px;
+            --spacingXXL: 24px;
+            --spacing3XL: 32px;
+            
+            /* Typography */
+            --fontFamily: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --fontSizeCaption: 12px;
+            --fontSizeBody: 14px;
+            --fontSizeBodyLarge: 16px;
+            --fontSizeSubtitle: 20px;
+            --fontSizeTitle: 28px;
+            --fontSizeDisplay: 40px;
+            
+            /* Transitions */
+            --transitionFast: 100ms ease;
+            --transitionNormal: 200ms cubic-bezier(0.33, 0, 0.67, 1);
+        }
+
+        /* ==========================================
+           BASE STYLES
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--fontFamily);
+            background: var(--colorNeutralBackground2);
+            color: var(--colorNeutralForeground1);
+            line-height: 1.5;
+        }
+
+        /* ==========================================
+           APP LAYOUT
+           ========================================== */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            grid-template-rows: auto 1fr;
+            min-height: 100vh;
+            gap: 0;
+        }
+
+        /* ==========================================
+           HEADER
+           ========================================== */
+        .header {
+            grid-column: 1 / -1;
+            background: var(--colorNeutralBackground1);
+            border-bottom: 1px solid var(--colorNeutralStroke2);
+            padding: var(--spacingL) var(--spacingXXL);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow2);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacingL);
+        }
+
+        .logo {
+            font-size: var(--fontSizeTitle);
+            font-weight: 600;
+            color: var(--colorBrandForeground);
+            display: flex;
+            align-items: center;
+            gap: var(--spacingS);
+        }
+
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--colorNeutralBackground3);
+            border: 1px solid var(--colorNeutralStroke1);
+            border-radius: var(--borderRadiusMedium);
+            padding: var(--spacingS) var(--spacingM);
+            width: 400px;
+            transition: var(--transitionNormal);
+        }
+
+        .search-box:focus-within {
+            border-color: var(--colorBrandBackground);
+            box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: var(--fontSizeBody);
+            flex: 1;
+            color: var(--colorNeutralForeground1);
+        }
+
+        .search-box input::placeholder {
+            color: var(--colorNeutralForeground3);
+        }
+
+        .search-icon {
+            color: var(--colorNeutralForeground2);
+            margin-right: var(--spacingS);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacingM);
+        }
+
+        /* ==========================================
+           BUTTONS
+           ========================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacingS);
+            padding: var(--spacingS) var(--spacingL);
+            border-radius: var(--borderRadiusSmall);
+            font-size: var(--fontSizeBody);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transitionNormal);
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--colorBrandBackground);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--colorBrandBackgroundHover);
+        }
+
+        .btn-primary:active {
+            background: var(--colorBrandBackgroundPressed);
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: var(--colorNeutralBackground1);
+            color: var(--colorNeutralForeground1);
+            border: 1px solid var(--colorNeutralStroke1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--colorNeutralBackground3);
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border-radius: var(--borderRadiusSmall);
+            background: transparent;
+            border: none;
+            color: var(--colorNeutralForeground2);
+            cursor: pointer;
+            transition: var(--transitionNormal);
+        }
+
+        .btn-icon:hover {
+            background: var(--colorNeutralBackground3);
+            color: var(--colorNeutralForeground1);
+        }
+
+        /* ==========================================
+           SIDEBAR - CATEGORIES
+           ========================================== */
+        .sidebar {
+            background: var(--colorNeutralBackground1);
+            border-right: 1px solid var(--colorNeutralStroke2);
+            padding: var(--spacingXXL);
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: var(--spacing3XL);
+        }
+
+        .sidebar-title {
+            font-size: var(--fontSizeCaption);
+            font-weight: 600;
+            color: var(--colorNeutralForeground2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--spacingM);
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacingM);
+            padding: var(--spacingS) var(--spacingM);
+            border-radius: var(--borderRadiusSmall);
+            cursor: pointer;
+            transition: var(--transitionNormal);
+            margin-bottom: var(--spacingXS);
+        }
+
+        .category-item:hover {
+            background: var(--colorNeutralBackground3);
+        }
+
+        .category-item.active {
+            background: rgba(0, 120, 212, 0.1);
+            color: var(--colorBrandForeground);
+        }
+
+        .category-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .category-count {
+            margin-left: auto;
+            font-size: var(--fontSizeCaption);
+            color: var(--colorNeutralForeground3);
+            background: var(--colorNeutralBackground3);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .favorites-section {
+            background: var(--colorNeutralBackground3);
+            border-radius: var(--borderRadiusMedium);
+            padding: var(--spacingL);
+        }
+
+        .favorites-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacingS);
+            margin-bottom: var(--spacingM);
+            color: var(--colorStatusWarning);
+        }
+
+        .favorite-mini {
+            display: flex;
+            align-items: center;
+            gap: var(--spacingS);
+            padding: var(--spacingS) 0;
+            font-size: var(--fontSizeCaption);
+            color: var(--colorNeutralForeground2);
+        }
+
+        .favorite-mini img {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--borderRadiusSmall);
+            object-fit: cover;
+        }
+
+        /* ==========================================
+           MAIN CONTENT - CALENDAR
+           ========================================== */
+        .main-content {
+            padding: var(--spacingXXL);
+            overflow-y: auto;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacingXL);
+        }
+
+        .section-title {
+            font-size: var(--fontSizeSubtitle);
+            font-weight: 600;
+        }
+
+        .week-nav {
+            display: flex;
+            align-items: center;
+            gap: var(--spacingS);
+        }
+
+        .week-label {
+            font-size: var(--fontSizeBody);
+            font-weight: 600;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        /* Calendar Grid */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacingM);
+            margin-bottom: var(--spacing3XL);
+        }
+
+        .calendar-day {
+            background: var(--colorNeutralBackground1);
+            border-radius: var(--borderRadiusMedium);
+            box-shadow: var(--shadow2);
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transitionNormal);
+        }
+
+        .calendar-day:hover {
+            box-shadow: var(--shadow8);
+            transform: translateY(-2px);
+        }
+
+        .day-header {
+            padding: var(--spacingM);
+            border-bottom: 1px solid var(--colorNeutralStroke2);
+            text-align: center;
+        }
+
+        .day-name {
+            font-size: var(--fontSizeCaption);
+            color: var(--colorNeutralForeground2);
+            text-transform: uppercase;
+        }
+
+        .day-date {
+            font-size: var(--fontSizeBodyLarge);
+            font-weight: 600;
+        }
+
+        .day-header.today {
+            background: var(--colorBrandBackground);
+            color: white;
+            border-radius: var(--borderRadiusMedium) var(--borderRadiusMedium) 0 0;
+        }
+
+        .day-header.today .day-name,
+        .day-header.today .day-date {
+            color: white;
+        }
+
+        .day-meals {
+            flex: 1;
+            padding: var(--spacingS);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacingS);
+        }
+
+        .meal-slot {
+            border: 2px dashed var(--colorNeutralStroke1);
+            border-radius: var(--borderRadiusSmall);
+            padding: var(--spacingS);
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transitionNormal);
+        }
+
+        .meal-slot:hover {
+            border-color: var(--colorBrandBackground);
+            background: rgba(0, 120, 212, 0.05);
+        }
+
+        .meal-slot.filled {
+            border: none;
+            background: var(--colorNeutralBackground3);
+            align-items: flex-start;
+        }
+
+        .meal-slot-label {
+            font-size: 10px;
+            color: var(--colorNeutralForeground3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meal-slot-add {
+            font-size: 20px;
+            color: var(--colorNeutralForeground3);
+        }
+
+        .meal-card-mini {
+            display: flex;
+            gap: var(--spacingS);
+            width: 100%;
+        }
+
+        .meal-card-mini img {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--borderRadiusSmall);
+            object-fit: cover;
+        }
+
+        .meal-card-mini-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .meal-card-mini-name {
+            font-size: var(--fontSizeCaption);
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .meal-card-mini-category {
+            font-size: 10px;
+            color: var(--colorNeutralForeground3);
+        }
+
+        /* ==========================================
+           RECIPE SUGGESTIONS
+           ========================================== */
+        .suggestions-section {
+            margin-top: var(--spacing3XL);
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: var(--spacingL);
+        }
+
+        .recipe-card {
+            background: var(--colorNeutralBackground1);
+            border-radius: var(--borderRadiusMedium);
+            box-shadow: var(--shadow4);
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transitionNormal);
+        }
+
+        .recipe-card:hover {
+            box-shadow: var(--shadow16);
+            transform: translateY(-4px);
+        }
+
+        .recipe-card-image {
+            position: relative;
+            height: 140px;
+            overflow: hidden;
+        }
+
+        .recipe-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .recipe-card-category {
+            position: absolute;
+            top: var(--spacingS);
+            left: var(--spacingS);
+            padding: 2px 8px;
+            border-radius: var(--borderRadiusSmall);
+            font-size: 10px;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .recipe-card-favorite {
+            position: absolute;
+            top: var(--spacingS);
+            right: var(--spacingS);
+            width: 28px;
+            height: 28px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transitionNormal);
+        }
+
+        .recipe-card-favorite:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .recipe-card-favorite.active {
+            color: var(--colorStatusDanger);
+        }
+
+        .recipe-card-content {
+            padding: var(--spacingM);
+        }
+
+        .recipe-card-title {
+            font-size: var(--fontSizeBody);
+            font-weight: 600;
+            margin-bottom: var(--spacingXS);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recipe-card-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacingM);
+            font-size: var(--fontSizeCaption);
+            color: var(--colorNeutralForeground2);
+        }
+
+        .recipe-card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ==========================================
+           RIGHT PANEL - SHOPPING LIST
+           ========================================== */
+        .right-panel {
+            background: var(--colorNeutralBackground1);
+            border-left: 1px solid var(--colorNeutralStroke2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            padding: var(--spacingXL);
+            border-bottom: 1px solid var(--colorNeutralStroke2);
+        }
+
+        .panel-title {
+            font-size: var(--fontSizeBodyLarge);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacingS);
+        }
+
+        .panel-subtitle {
+            font-size: var(--fontSizeCaption);
+            color: var(--colorNeutralForeground2);
+            margin-top: var(--spacingXS);
+        }
+
+        .shopping-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--spacingL);
+        }
+
+        .shopping-category {
+            margin-bottom: var(--spacingXL);
+        }
+
+        .shopping-category-title {
+            font-size: var(--fontSizeCaption);
+            font-weight: 600;
+            color: var(--colorNeutralForeground2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--spacingS);
+            display: flex;
+            align-items: center;
+            gap: var(--spacingS);
+        }
+
+        .shopping-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacingM);
+            padding: var(--spacingS) 0;
+            border-bottom: 1px solid var(--colorNeutralStroke2);
+        }
+
+        .shopping-item:last-child {
+            border-bottom: none;
+        }
+
+        .shopping-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--colorNeutralStroke1);
+            border-radius: var(--borderRadiusSmall);
+            cursor: pointer;
+            transition: var(--transitionNormal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shopping-checkbox:hover {
+            border-color: var(--colorBrandBackground);
+        }
+
+        .shopping-checkbox.checked {
+            background: var(--colorBrandBackground);
+            border-color: var(--colorBrandBackground);
+            color: white;
+        }
+
+        .shopping-item-name {
+            flex: 1;
+            font-size: var(--fontSizeBody);
+        }
+
+        .shopping-item.checked .shopping-item-name {
+            text-decoration: line-through;
+            color: var(--colorNeutralForeground3);
+        }
+
+        .shopping-item-qty {
+            font-size: var(--fontSizeCaption);
+            color: var(--colorNeutralForeground2);
+            background: var(--colorNeutralBackground3);
+            padding: 2px 8px;
+            border-radius: var(--borderRadiusSmall);
+        }
+
+        .panel-actions {
+            padding: var(--spacingL);
+            border-top: 1px solid var(--colorNeutralStroke2);
+            display: flex;
+            gap: var(--spacingS);
+        }
+
+        .panel-actions .btn {
+            flex: 1;
+        }
+
+        /* ==========================================
+           NUTRITION SUMMARY
+           ========================================== */
+        .nutrition-card {
+            background: var(--colorNeutralBackground3);
+            border-radius: var(--borderRadiusMedium);
+            padding: var(--spacingL);
+            margin: var(--spacingL);
+        }
+
+        .nutrition-title {
+            font-size: var(--fontSizeCaption);
+            font-weight: 600;
+            color: var(--colorNeutralForeground2);
+            margin-bottom: var(--spacingM);
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacingS);
+        }
+
+        .nutrition-item {
+            text-align: center;
+            padding: var(--spacingS);
+        }
+
+        .nutrition-value {
+            font-size: var(--fontSizeBodyLarge);
+            font-weight: 600;
+            color: var(--colorBrandForeground);
+        }
+
+        .nutrition-label {
+            font-size: 10px;
+            color: var(--colorNeutralForeground3);
+            text-transform: uppercase;
+        }
+
+        /* ==========================================
+           TAGS
+           ========================================== */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: var(--borderRadiusSmall);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .tag-seafood { background: rgba(0, 120, 212, 0.15); color: var(--colorSeafood); }
+        .tag-chicken { background: rgba(255, 185, 0, 0.15); color: #996F00; }
+        .tag-beef { background: rgba(209, 52, 56, 0.15); color: var(--colorBeef); }
+        .tag-vegetarian { background: rgba(16, 124, 16, 0.15); color: var(--colorVegetarian); }
+        .tag-dessert { background: rgba(136, 23, 152, 0.15); color: var(--colorDessert); }
+        .tag-pasta { background: rgba(255, 140, 0, 0.15); color: var(--colorPasta); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-icon">🍽️</span>
+                    <span>Meal Planner</span>
+                </div>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search recipes, ingredients, or categories...">
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" title="Notifications">🔔</button>
+                <button class="btn-icon" title="Settings">⚙️</button>
+                <button class="btn btn-primary">+ Add Recipe</button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Categories</div>
+                <ul class="category-list">
+                    <li class="category-item active">
+                        <span class="category-dot" style="background: var(--colorBrandBackground)"></span>
+                        <span>All Recipes</span>
+                        <span class="category-count">156</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-dot" style="background: var(--colorSeafood)"></span>
+                        <span>Seafood</span>
+                        <span class="category-count">24</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-dot" style="background: var(--colorChicken)"></span>
+                        <span>Chicken</span>
+                        <span class="category-count">38</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-dot" style="background: var(--colorBeef)"></span>
+                        <span>Beef</span>
+                        <span class="category-count">22</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-dot" style="background: var(--colorVegetarian)"></span>
+                        <span>Vegetarian</span>
+                        <span class="category-count">31</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-dot" style="background: var(--colorPasta)"></span>
+                        <span>Pasta</span>
+                        <span class="category-count">19</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-dot" style="background: var(--colorDessert)"></span>
+                        <span>Desserts</span>
+                        <span class="category-count">22</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Dietary Filters</div>
+                <ul class="category-list">
+                    <li class="category-item">
+                        <span>🌿</span>
+                        <span>Vegan</span>
+                    </li>
+                    <li class="category-item">
+                        <span>🚫🌾</span>
+                        <span>Gluten-Free</span>
+                    </li>
+                    <li class="category-item">
+                        <span>🥛</span>
+                        <span>Dairy-Free</span>
+                    </li>
+                    <li class="category-item">
+                        <span>⚡</span>
+                        <span>Quick (< 30 min)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="favorites-section">
+                <div class="favorites-header">
+                    <span>⭐</span>
+                    <strong>Favorites</strong>
+                </div>
+                <div class="favorite-mini">
+                    <img src="https://www.themealdb.com/images/media/meals/1529444830.jpg" alt="Honey Teriyaki">
+                    <span>Honey Teriyaki Salmon</span>
+                </div>
+                <div class="favorite-mini">
+                    <img src="https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg" alt="Pad Thai">
+                    <span>Pad Thai</span>
+                </div>
+                <div class="favorite-mini">
+                    <img src="https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg" alt="Lasagne">
+                    <span>Classic Lasagne</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Week Calendar -->
+            <div class="section-header">
+                <h2 class="section-title">Weekly Meal Plan</h2>
+                <div class="week-nav">
+                    <button class="btn-icon">◀</button>
+                    <span class="week-label">December 2 - 8, 2025</span>
+                    <button class="btn-icon">▶</button>
+                    <button class="btn btn-secondary">Today</button>
+                </div>
+            </div>
+
+            <div class="calendar-grid">
+                <!-- Monday -->
+                <div class="calendar-day">
+                    <div class="day-header today">
+                        <div class="day-name">Mon</div>
+                        <div class="day-date">2</div>
+                    </div>
+                    <div class="day-meals">
+                        <div class="meal-slot filled">
+                            <div class="meal-card-mini">
+                                <img src="https://www.themealdb.com/images/media/meals/1529444830.jpg" alt="Salmon">
+                                <div class="meal-card-mini-info">
+                                    <div class="meal-card-mini-name">Teriyaki Salmon</div>
+                                    <div class="meal-card-mini-category">🐟 Seafood</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Lunch</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot filled">
+                            <div class="meal-card-mini">
+                                <img src="https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg" alt="Pad Thai">
+                                <div class="meal-card-mini-info">
+                                    <div class="meal-card-mini-name">Pad Thai</div>
+                                    <div class="meal-card-mini-category">🍜 Chicken</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tuesday -->
+                <div class="calendar-day">
+                    <div class="day-header">
+                        <div class="day-name">Tue</div>
+                        <div class="day-date">3</div>
+                    </div>
+                    <div class="day-meals">
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Breakfast</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot filled">
+                            <div class="meal-card-mini">
+                                <img src="https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg" alt="Salad">
+                                <div class="meal-card-mini-info">
+                                    <div class="meal-card-mini-name">Caesar Salad</div>
+                                    <div class="meal-card-mini-category">🥗 Vegetarian</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Dinner</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wednesday -->
+                <div class="calendar-day">
+                    <div class="day-header">
+                        <div class="day-name">Wed</div>
+                        <div class="day-date">4</div>
+                    </div>
+                    <div class="day-meals">
+                        <div class="meal-slot filled">
+                            <div class="meal-card-mini">
+                                <img src="https://www.themealdb.com/images/media/meals/tkxquw1628771028.jpg" alt="Omelette">
+                                <div class="meal-card-mini-info">
+                                    <div class="meal-card-mini-name">French Omelette</div>
+                                    <div class="meal-card-mini-category">🥚 Breakfast</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Lunch</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot filled">
+                            <div class="meal-card-mini">
+                                <img src="https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg" alt="Lasagne">
+                                <div class="meal-card-mini-info">
+                                    <div class="meal-card-mini-name">Lasagne</div>
+                                    <div class="meal-card-mini-category">🍝 Pasta</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thursday -->
+                <div class="calendar-day">
+                    <div class="day-header">
+                        <div class="day-name">Thu</div>
+                        <div class="day-date">5</div>
+                    </div>
+                    <div class="day-meals">
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Breakfast</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Lunch</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Dinner</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Friday -->
+                <div class="calendar-day">
+                    <div class="day-header">
+                        <div class="day-name">Fri</div>
+                        <div class="day-date">6</div>
+                    </div>
+                    <div class="day-meals">
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Breakfast</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot filled">
+                            <div class="meal-card-mini">
+                                <img src="https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg" alt="Burger">
+                                <div class="meal-card-mini-info">
+                                    <div class="meal-card-mini-name">Classic Burger</div>
+                                    <div class="meal-card-mini-category">🍔 Beef</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Dinner</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saturday -->
+                <div class="calendar-day">
+                    <div class="day-header">
+                        <div class="day-name">Sat</div>
+                        <div class="day-date">7</div>
+                    </div>
+                    <div class="day-meals">
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Breakfast</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Lunch</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Dinner</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sunday -->
+                <div class="calendar-day">
+                    <div class="day-header">
+                        <div class="day-name">Sun</div>
+                        <div class="day-date">8</div>
+                    </div>
+                    <div class="day-meals">
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Breakfast</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot">
+                            <span class="meal-slot-label">Lunch</span>
+                            <span class="meal-slot-add">+</span>
+                        </div>
+                        <div class="meal-slot filled">
+                            <div class="meal-card-mini">
+                                <img src="https://www.themealdb.com/images/media/meals/ysxwuq1487323065.jpg" alt="Roast">
+                                <div class="meal-card-mini-info">
+                                    <div class="meal-card-mini-name">Sunday Roast</div>
+                                    <div class="meal-card-mini-category">🍖 Beef</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Suggestions -->
+            <div class="suggestions-section">
+                <div class="section-header">
+                    <h2 class="section-title">Suggested Recipes</h2>
+                    <button class="btn btn-secondary">🎲 Random</button>
+                </div>
+
+                <div class="recipe-grid">
+                    <div class="recipe-card">
+                        <div class="recipe-card-image">
+                            <img src="https://www.themealdb.com/images/media/meals/1529444830.jpg" alt="Teriyaki Salmon">
+                            <span class="recipe-card-category" style="background: var(--colorSeafood)">Seafood</span>
+                            <button class="recipe-card-favorite active">❤️</button>
+                        </div>
+                        <div class="recipe-card-content">
+                            <div class="recipe-card-title">Honey Teriyaki Salmon</div>
+                            <div class="recipe-card-meta">
+                                <span>⏱️ 25 min</span>
+                                <span>🔥 420 cal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card">
+                        <div class="recipe-card-image">
+                            <img src="https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg" alt="Pad Thai">
+                            <span class="recipe-card-category" style="background: var(--colorChicken)">Chicken</span>
+                            <button class="recipe-card-favorite">🤍</button>
+                        </div>
+                        <div class="recipe-card-content">
+                            <div class="recipe-card-title">Pad Thai</div>
+                            <div class="recipe-card-meta">
+                                <span>⏱️ 30 min</span>
+                                <span>🔥 550 cal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card">
+                        <div class="recipe-card-image">
+                            <img src="https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg" alt="Lasagne">
+                            <span class="recipe-card-category" style="background: var(--colorPasta)">Pasta</span>
+                            <button class="recipe-card-favorite active">❤️</button>
+                        </div>
+                        <div class="recipe-card-content">
+                            <div class="recipe-card-title">Classic Lasagne</div>
+                            <div class="recipe-card-meta">
+                                <span>⏱️ 60 min</span>
+                                <span>🔥 680 cal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card">
+                        <div class="recipe-card-image">
+                            <img src="https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg" alt="Salad">
+                            <span class="recipe-card-category" style="background: var(--colorVegetarian)">Vegetarian</span>
+                            <button class="recipe-card-favorite">🤍</button>
+                        </div>
+                        <div class="recipe-card-content">
+                            <div class="recipe-card-title">Greek Salad</div>
+                            <div class="recipe-card-meta">
+                                <span>⏱️ 15 min</span>
+                                <span>🔥 280 cal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card">
+                        <div class="recipe-card-image">
+                            <img src="https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg" alt="Burger">
+                            <span class="recipe-card-category" style="background: var(--colorBeef)">Beef</span>
+                            <button class="recipe-card-favorite">🤍</button>
+                        </div>
+                        <div class="recipe-card-content">
+                            <div class="recipe-card-title">Big Mac</div>
+                            <div class="recipe-card-meta">
+                                <span>⏱️ 20 min</span>
+                                <span>🔥 540 cal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card">
+                        <div class="recipe-card-image">
+                            <img src="https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg" alt="Dessert">
+                            <span class="recipe-card-category" style="background: var(--colorDessert)">Dessert</span>
+                            <button class="recipe-card-favorite">🤍</button>
+                        </div>
+                        <div class="recipe-card-content">
+                            <div class="recipe-card-title">Chocolate Souffle</div>
+                            <div class="recipe-card-meta">
+                                <span>⏱️ 45 min</span>
+                                <span>🔥 380 cal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Panel - Shopping List -->
+        <aside class="right-panel">
+            <div class="panel-header">
+                <div class="panel-title">🛒 Shopping List</div>
+                <div class="panel-subtitle">12 items for this week</div>
+            </div>
+
+            <div class="nutrition-card">
+                <div class="nutrition-title">Weekly Nutrition Summary</div>
+                <div class="nutrition-grid">
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">2,150</div>
+                        <div class="nutrition-label">Avg Calories</div>
+                    </div>
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">145g</div>
+                        <div class="nutrition-label">Protein</div>
+                    </div>
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">210g</div>
+                        <div class="nutrition-label">Carbs</div>
+                    </div>
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">75g</div>
+                        <div class="nutrition-label">Fat</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shopping-list">
+                <div class="shopping-category">
+                    <div class="shopping-category-title">
+                        <span>🥩</span> Proteins
+                    </div>
+                    <div class="shopping-item">
+                        <div class="shopping-checkbox"></div>
+                        <span class="shopping-item-name">Salmon fillets</span>
+                        <span class="shopping-item-qty">2 lbs</span>
+                    </div>
+                    <div class="shopping-item">
+                        <div class="shopping-checkbox"></div>
+                        <span class="shopping-item-name">Chicken breast</span>
+                        <span class="shopping-item-qty">1.5 lbs</span>
+                    </div>
+                    <div class="shopping-item checked">
+                        <div class="shopping-checkbox checked">✓</div>
+                        <span class="shopping-item-name">Ground beef</span>
+                        <span class="shopping-item-qty">1 lb</span>
+                    </div>
+                </div>
+
+                <div class="shopping-category">
+                    <div class="shopping-category-title">
+                        <span>🥬</span> Produce
+                    </div>
+                    <div class="shopping-item">
+                        <div class="shopping-checkbox"></div>
+                        <span class="shopping-item-name">Broccoli</span>
+                        <span class="shopping-item-qty">2 heads</span>
+                    </div>
+                    <div class="shopping-item">
+                        <div class="shopping-checkbox"></div>
+                        <span class="shopping-item-name">Bell peppers</span>
+                        <span class="shopping-item-qty">4</span>
+                    </div>
+                    <div class="shopping-item">
+                        <div class="shopping-checkbox"></div>
+                        <span class="shopping-item-name">Garlic</span>
+                        <span class="shopping-item-qty">1 bulb</span>
+                    </div>
+                    <div class="shopping-item checked">
+                        <div class="shopping-checkbox checked">✓</div>
+                        <span class="shopping-item-name">Onions</span>
+                        <span class="shopping-item-qty">3</span>
+                    </div>
+                </div>
+
+                <div class="shopping-category">
+                    <div class="shopping-category-title">
+                        <span>🧀</span> Dairy
+                    </div>
+                    <div class="shopping-item">
+                        <div class="shopping-checkbox"></div>
+                        <span class="shopping-item-name">Mozzarella</span>
+                        <span class="shopping-item-qty">8 oz</span>
+                    </div>
+                    <div class="shopping-item">
+                        <div class="shopping-checkbox"></div>
+                        <span class="shopping-item-name">Heavy cream</span>
+                        <span class="shopping-item-qty">1 pint</span>
+                    </div>
+                </div>
+
+                <div class="shopping-category">
+                    <div class="shopping-category-title">
+                        <span>🫙</span> Pantry
+                    </div>
+                    <div class="shopping-item">
+                        <div class="shopping-checkbox"></div>
+                        <span class="shopping-item-name">Soy sauce</span>
+                        <span class="shopping-item-qty">1 bottle</span>
+                    </div>
+                    <div class="shopping-item">
+                        <div class="shopping-checkbox"></div>
+                        <span class="shopping-item-name">Rice noodles</span>
+                        <span class="shopping-item-qty">1 pack</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-actions">
+                <button class="btn btn-secondary">📋 Copy List</button>
+                <button class="btn btn-primary">📤 Export</button>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>
